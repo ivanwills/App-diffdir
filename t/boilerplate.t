@@ -2,8 +2,8 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3 + 1;
-use Test::NoWarnings;
+use Test::More;
+use Test::Warnings;
 
 sub not_in_file_ok {
     my ($filename, %regex) = @_;
@@ -21,7 +21,7 @@ sub not_in_file_ok {
     }
 
     for my $test (keys %regex) {
-        ok !$violated{$test}, $test or diag "$test appears on lines @{$violated{$_}}";
+        ok !$violated{$test}, $test or diag "$test appears on lines @{$violated{$test}}";
     }
 }
 
@@ -45,22 +45,19 @@ sub module_boilerplate_ok {
     };
 }
 
-TODO: {
-    local $TODO = "Need to replace the boilerplate text";
+subtest 'README' => sub {
+    not_in_file_ok((-f 'README' ? 'README' : 'README.pod') =>
+        "The README is used..."       => qr/The README is used/,
+        "'version information here'"  => qr/to provide version information/,
+    );
+};
 
-    subtest 'README' => sub {
-        not_in_file_ok((-f 'README' ? 'README' : 'README.pod') =>
-            "The README is used..."       => qr/The README is used/,
-            "'version information here'"  => qr/to provide version information/,
-        );
-    };
+subtest 'Changes' => sub {
+    not_in_file_ok(Changes =>
+        "placeholder date/time"       => qr(Date/time)
+    );
+};
 
-    subtest 'Changes' => sub {
-        not_in_file_ok(Changes =>
-            "placeholder date/time"       => qr(Date/time)
-        );
-    };
-}
-
-module_boilerplate_ok('App-diffdir/t/boilerplate.t');
-
+module_boilerplate_ok('bin/diffdir');
+module_boilerplate_ok('lib/App/diffdir.pm');
+done_testing();
