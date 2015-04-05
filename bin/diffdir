@@ -9,9 +9,6 @@
 use strict;
 use warnings;
 use version;
-use Scalar::Util;
-use List::Util;
-#use List::MoreUtils;
 use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper qw/Dumper/;
@@ -296,7 +293,7 @@ diffdir - Compares two or more directories for files that differ
 
 =head1 VERSION
 
-This documentation refers to diffdir version 0.1.
+This documentation refers to diffdir version 0.0.1.
 
 =head1 SYNOPSIS
 
@@ -356,11 +353,11 @@ Patches are welcome.
 
 =head1 AUTHOR
 
-Ivan Wills - (ivanw@benon.com)
+Ivan Wills - (ivan.wills@gmail.com)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2008-2011 Ivan Wills (14 Mullion Cl Hornsby Heights, Australia 2077).
+Copyright (c) 2015 Ivan Wills (14 Mullion Close, Hornsby Heights, NSW Australia 2077).
 All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it under
