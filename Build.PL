@@ -8,11 +8,12 @@ my $builder = Module::Build->new(
     dist_author       => 'Ivan Wills <ivan.wills@gmail.com>',
     dist_version_from => 'lib/App/diffdir.pm',
     requires          => {
-        'perl'             => 5.008,
+        'perl'           => '5.006',
+        'Path::Class'    => '0.35',
     },
     build_requires => {
-        'Test::More'       => '0.88',
-        'Test::NoWarnings' => 0,
+        'Test::More'     => '0.88',
+        'Test::Warnings' => 0,
     },
     add_to_cleanup     => [ 'App-diffdir-*' ],
     create_makefile_pl => 'traditional',
