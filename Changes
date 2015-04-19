@@ -1,5 +1,15 @@
 Revision history for App-diffdir
 
-0.0.1   2015-04-05
-        First version, released on an unsuspecting world.
-
+0.1     2015-04-05
+        Updated dependencies (Ivan Wills)
+        Changed version number (Ivan Wills)
+        Made load test better (Ivan Wills)
+        Added stop words (Ivan Wills)
+        Fixed MANIFEST and LICENSE (Ivan Wills)
+        Fixed POD (Ivan Wills)
+        Fixed test (Ivan Wills)
+        Added date (Ivan Wills)
+        Added POD format (Ivan Wills)
+        Moved README format to POD (Ivan Wills)
+        Added real file (Ivan Wills)
+        Initial commit (Ivan Wills)
