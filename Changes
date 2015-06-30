@@ -1,5 +1,9 @@
 Revision history for App-diffdir
 
+0.2   2015-06-30
+        Updating for release of version 0.2
+        Removed unneeded tag (Ivan Wills)
+
 0.1     2015-04-05
         Updated dependencies (Ivan Wills)
         Changed version number (Ivan Wills)
