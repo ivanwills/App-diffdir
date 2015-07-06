@@ -13,7 +13,7 @@ use Pod::Usage;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 use FindBin qw/$Bin/;
-use Path::Class;
+use Path::Tiny;
 
 our $VERSION = 0.2;
 my ($name)   = $PROGRAM_NAME =~ m{^.*/(.*?)$}mxs;
@@ -81,7 +81,7 @@ sub main {
     for my $dir (@dirs) {
         # remove any trailing slashes
         $dir =~ s{/$}{}xms;
-        $dir = dir $dir;
+        $dir = path($dir);
 
         # get the list of all files in the dir
         $files{$dir} = { get_files($dir) };
@@ -116,7 +116,7 @@ sub main {
                         }
                     }
                     for my $found (@found) {
-                        file($dir,$file)->parent->mkpath if $option{missing_dirs};
+                        path($dir,$file)->parent->mkpath if $option{missing_dirs};
                         next if "$found/$file" eq "$dir/$file";
                         my $msg
                             = $option{'rm'} ? "$cmd " . shell_quote("$found/$file")

@@ -8,8 +8,8 @@ my $builder = Module::Build->new(
     dist_author       => 'Ivan Wills <ivan.wills@gmail.com>',
     dist_version_from => 'lib/App/diffdir.pm',
     requires          => {
-        'perl'           => '5.006',
-        'Path::Class'    => '0.35',
+        'perl'       => '5.006',
+        'Path::Tiny' => 0,
     },
     build_requires => {
         'Test::More'     => '0.88',
