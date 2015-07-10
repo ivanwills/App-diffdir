@@ -12,7 +12,7 @@ use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 use base qw/Exporter/;
 
-our $VERSION = 0.2;
+our $VERSION = 0.3;
 
 1;
 
@@ -24,7 +24,7 @@ App::diffdir - Compares two or more directories for files that differ
 
 =head1 VERSION
 
-This documentation refers to App::diffdir version 0.2
+This documentation refers to App::diffdir version 0.3
 
 =head1 SYNOPSIS
 
