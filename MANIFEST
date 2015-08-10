@@ -3,7 +3,6 @@ Build.PL
 Changes
 lib/App/diffdir.pm
 LICENSE
-Makefile.PL
 MANIFEST
 META.yml
 README.pod
