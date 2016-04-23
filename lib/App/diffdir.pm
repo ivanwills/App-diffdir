@@ -6,13 +6,81 @@ package App::diffdir;
 # $Revision$, $HeadURL$, $Date$
 # $Revision$, $Source$, $Date$
 
+use Moo;
 use strict;
 use warnings;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
-use base qw/Exporter/;
+use Path::Tiny;
 
 our $VERSION = 0.4;
+
+has [qw/files option/] => (
+    is      => 'rw',
+    default => sub {{}},
+);
+
+sub find_files {
+    my ($self, $dir) = @_;
+    my @files = path($dir)->children;
+
+    while ( my $file = shift @files ) {
+        if ( -d $file ) {
+            push @files, $file->children;
+        }
+        else {
+            my $base = $self->basename($dir, $file);
+            push @{ $self->files->{$base} }, $dir;
+        }
+    }
+
+}
+
+sub diff {
+    my ($self, $file1, $file2) = @_;
+
+    return if !$self->option->{follow} && (-l $file1 || -l $file2);
+
+    my $file1_q = shell_quote($file1);
+    my $file2_q = shell_quote($file2);
+
+    my $cmd  = '/usr/bin/diff';
+    if ( $self->option->{'ignore-space-change'} ) {
+        $cmd .= ' --ignore-space-change';
+    }
+    if ( $self->option->{'ignore-all-space'} ) {
+        $cmd .= ' --ignore-all-space';
+    }
+    $cmd  .= " $file1_q $file2_q";
+    my $diff
+        = -s $file1 != -s $file2 ? abs( (-s $file1) - (-s $file2) )
+        : $self->option->{fast}  ? 0
+        :                          length ''.`$cmd`;
+
+    if ($diff) {
+        warn "$self->option->{cmd} $file1_q $file2_q\n" if $self->option->{verbose};
+        return ( $diff, "$self->option->{cmd} $file1_q $file2_q" );
+    }
+
+    return;
+}
+
+sub shell_quote {
+    my ($text) = @_;
+
+    if ($text =~ /[\s$|><;#]/xms) {
+        $text =~ s/'/'\\''/gxms;
+        $text = "'$text'";
+    }
+
+    return $text;
+}
+
+sub basename {
+    my ($self, $dir, $file) = @_;
+    $file =~ s{^$dir/?}{};
+    return $file;
+}
 
 1;
 
