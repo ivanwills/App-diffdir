@@ -13,7 +13,7 @@ use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 use Path::Tiny;
 
-our $VERSION = 0.4;
+our $VERSION = 0.5;
 
 has [qw/files option/] => (
     is      => 'rw',
@@ -92,7 +92,7 @@ App::diffdir - Compares two or more directories for files that differ
 
 =head1 VERSION
 
-This documentation refers to App::diffdir version 0.4
+This documentation refers to App::diffdir version 0.5
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,13 @@
 Revision history for App-diffdir
 
+0.5   2016-06-19
+        Updating for release of version 0.5
+        Added Moo dependency (Ivan Wills)
+        Moving logic into module (Ivan Wills)
+        Updated config files (Ivan Wills)
+        Updated config files (Ivan Wills)
+        LICENSE update (Ivan Wills)
+
 0.4   2015-08-10
         Updating for release of version 0.4
         Removed creation of makefile (Ivan Wills)
