@@ -9,6 +9,7 @@ my $builder = Module::Build->new(
     dist_version_from => 'lib/App/diffdir.pm',
     requires          => {
         'perl'       => '5.006',
+        'Moo'        => '2.000000',
         'Path::Tiny' => 0,
     },
     build_requires => {
