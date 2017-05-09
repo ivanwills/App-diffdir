@@ -9,6 +9,10 @@ editor:
       - bin/*
     lib:
       - lib/**/*.pm
+    test:
+      - t/lib/DirBuilder.pm
+      - t/find_files.t
+      - t/get_files.t
 name: diffdir
 terminals:
   1a:
@@ -22,3 +26,6 @@ terminals:
     edit:
       - bin
       - lib
+  3:
+    edit:
+      - test
