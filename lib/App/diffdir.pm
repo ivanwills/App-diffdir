@@ -20,20 +20,41 @@ has [qw/files option/] => (
     default => sub {{}},
 );
 
-sub find_files {
-    my ($self, $dir) = @_;
-    my @files = path($dir)->children;
+sub get_files {
+    my ($self, @dirs) = @_;
+    my %found;
 
-    while ( my $file = shift @files ) {
-        if ( -d $file ) {
-            push @files, $file->children;
-        }
-        else {
-            my $base = $self->basename($dir, $file);
-            push @{ $self->files->{$base} }, $dir;
+    for my $dir (@dirs) {
+        my @found = $self->find_files($dir);
+        for my $file (@found) {
+            my $base = $file;
+            $base =~ s/^$dir\/?//;
+            $found{$base}{$file} = {};
         }
     }
 
+    return %found;
+}
+
+sub find_files {
+    my ($self, $dir) = @_;
+    my $option = $self->option;
+    my @files = path($dir)->children;
+    my @found;
+
+    FILE:
+    while ( my $file = shift @files ) {
+        next FILE if $file->basename =~ /^[.].*[.]sw[n-z]$|^[.](?:svn|bzr|git)$|CVS|RCS$/;
+        next FILE if $option->{exclude} && grep {$file =~ /$_/} @{ $option->{exclude} };
+
+        push @found, $file;
+
+        if ( -d $file ) {
+            push @files, $file->children;
+        }
+    }
+
+    return @found;
 }
 
 sub diff {
