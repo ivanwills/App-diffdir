@@ -9,7 +9,7 @@ editor:
       - bin/*
     lib:
       - lib/**/*.pm
-    test:
+    tests:
       - t/lib/DirBuilder.pm
       - t/find_files.t
       - t/get_files.t
@@ -21,11 +21,11 @@ terminals:
     wait: 0
     watch:
       - lib
-      - tests
+      - test
   2:
     edit:
       - bin
       - lib
   3:
     edit:
-      - test
+      - tests
