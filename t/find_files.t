@@ -34,7 +34,7 @@ sub find_files_default {
     ok !(grep {/[.]git/} @a), "Default excluded directory isn't found";
 
     # clean up
-    path('t/find_files/a')->remove_tree;
+    path('t/find_files')->remove_tree;
 }
 
 sub find_files_excluded {
@@ -59,5 +59,5 @@ sub find_files_excluded {
     ok !(grep {/file2/} @a), "Excluded 'file2' from list found";
 
     # clean up
-    path('t/find_files/a')->remove_tree;
+    path('t/find_files')->remove_tree;
 }
