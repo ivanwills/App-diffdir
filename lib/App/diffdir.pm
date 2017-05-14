@@ -12,6 +12,7 @@ use warnings;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 use Path::Tiny;
+use Text::Diff;
 
 our $VERSION = 0.5;
 
@@ -19,6 +20,50 @@ has [qw/files option/] => (
     is      => 'rw',
     default => sub {{}},
 );
+
+sub differences {
+    my ($self, @dirs) = @_;
+
+    my %found = $self->get_files(@dirs);
+
+    for my $file (keys %found) {
+        my $last_dir = $dirs[0];
+        my $diff_count = 0;
+
+        if ( ! $found{$file}{$last_dir} ) {
+            $found{$file}{$last_dir} = {
+                name => path( $last_dir, $file),
+                diff => 'missing',
+            };
+        }
+
+        for my $dir (@dirs[1 .. @dirs - 1]) {
+            if ( ! $found{$file}{$dir} ) {
+            $found{$file}{$dir} = {
+                name => path( $dir, $file),
+                diff => 'missing',
+            };
+                $diff_count++;
+            }
+            elsif ( ! -e $found{$file}{$last_dir}{name} ) {
+                $found{$file}{$dir}{diff} = 'added';
+                $diff_count++;
+            }
+            elsif ( my $diff = eval { diff( ''.path($last_dir, $file), ''.path($dir, $file) ) } ) {
+                $found{$file}{$dir}{diff} = $diff;
+                $diff_count++;
+            }
+            warn $@ if $@;
+            $last_dir = $dir;
+        }
+
+        if ( !$diff_count ) {
+            delete $found{$file};
+        }
+    }
+
+    return %found;
+}
 
 sub get_files {
     my ($self, @dirs) = @_;
@@ -59,7 +104,7 @@ sub find_files {
     return @found;
 }
 
-sub diff {
+sub mydiff {
     my ($self, $file1, $file2) = @_;
 
     return if !$self->option->{follow} && (-l $file1 || -l $file2);
