@@ -30,7 +30,7 @@ sub get_files {
             my $base = $file;
             $base =~ s/^$dir\/?//;
             $found{$base}{$dir} = {
-                name => "$file",
+                name => $file,
             };
         }
     }
