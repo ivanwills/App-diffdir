@@ -23,9 +23,11 @@ terminals:
       - lib
       - test
   2:
+    restart: 1
     edit:
       - bin
       - lib
   3:
+    restart: 1
     edit:
       - tests
