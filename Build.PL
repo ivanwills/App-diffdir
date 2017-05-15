@@ -11,6 +11,7 @@ my $builder = Module::Build->new(
         'perl'       => '5.006',
         'Moo'        => '2.000000',
         'Path::Tiny' => 0,
+        'Text::Diff' => 0,
     },
     build_requires => {
         'Test::More'     => '0.88',
