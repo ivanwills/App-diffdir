@@ -49,7 +49,7 @@ sub differences {
                 $found{$file}{$dir}{diff} = 'added';
                 $diff_count++;
             }
-            elsif ( my $diff = eval { diff( ''.path($last_dir, $file), ''.path($dir, $file) ) } ) {
+            elsif ( my $diff = eval { $self->dodiff( ''.path($last_dir, $file), ''.path($dir, $file) ) } ) {
                 $found{$file}{$dir}{diff} = $diff;
                 $diff_count++;
             }
@@ -102,6 +102,27 @@ sub find_files {
     }
 
     return @found;
+}
+
+my $which_diff;
+sub dodiff {
+    my ($self, $file1, $file2) = @_;
+
+    if ( $which_diff ) {
+        $which_diff = $self->option->{'ignore-space-change'} || $self->option->{'ignore-all-space'}
+            ? 'mydiff'
+            : 'text';
+    }
+
+    if ( $which_diff eq 'mydiff' ) {
+        return $self->mydiff($file1, $file2);
+    }
+    else {
+        my $diff = diff($file1, $file2);
+        return (length $diff, "diff $file1 $file2") if $diff;
+    }
+
+    return;
 }
 
 sub mydiff {
