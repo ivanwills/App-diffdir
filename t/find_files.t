@@ -39,9 +39,7 @@ sub find_files_default {
 
 sub find_files_excluded {
     my $dd = App::diffdir->new(
-        option => {
-            exclude => [qw/file2/],
-        },
+        exclude => [qw/file2/],
     );;
 
     my $path = {
