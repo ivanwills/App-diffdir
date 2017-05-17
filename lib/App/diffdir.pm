@@ -108,7 +108,7 @@ my $which_diff;
 sub dodiff {
     my ($self, $file1, $file2) = @_;
 
-    if ( $which_diff ) {
+    if ( ! $which_diff ) {
         $which_diff = $self->option->{'ignore-space-change'} || $self->option->{'ignore-all-space'}
             ? 'mydiff'
             : 'text';
