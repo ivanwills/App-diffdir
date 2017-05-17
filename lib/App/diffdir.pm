@@ -16,9 +16,23 @@ use Text::Diff;
 
 our $VERSION = 0.5;
 
-has [qw/files option/] => (
+has files => (
     is      => 'rw',
     default => sub {{}},
+);
+has exclude => (
+    is      => 'rw',
+    default => sub {[]},
+);
+has [qw/
+    cmd
+    fast
+    follow
+    ignore_all_space
+    ignore_space_change
+    verbose
+/] => (
+    is => 'rw',
 );
 
 sub differences {
@@ -85,14 +99,13 @@ sub get_files {
 
 sub find_files {
     my ($self, $dir) = @_;
-    my $option = $self->option;
     my @files = path($dir)->children;
     my @found;
 
     FILE:
     while ( my $file = shift @files ) {
         next FILE if $file->basename =~ /^[.].*[.]sw[n-z]$|^[.](?:svn|bzr|git)$|CVS|RCS$/;
-        next FILE if $option->{exclude} && grep {$file =~ /$_/} @{ $option->{exclude} };
+        next FILE if $self->{exclude} && grep {$file =~ /$_/} @{ $self->{exclude} };
 
         push @found, $file;
 
@@ -109,7 +122,7 @@ sub dodiff {
     my ($self, $file1, $file2) = @_;
 
     if ( ! $which_diff ) {
-        $which_diff = $self->option->{'ignore-space-change'} || $self->option->{'ignore-all-space'}
+        $which_diff = $self->ignore_space_change || $self->ignore_all_space
             ? 'mydiff'
             : 'text';
     }
@@ -128,27 +141,27 @@ sub dodiff {
 sub mydiff {
     my ($self, $file1, $file2) = @_;
 
-    return if !$self->option->{follow} && (-l $file1 || -l $file2);
+    return if !$self->follow && (-l $file1 || -l $file2);
 
     my $file1_q = shell_quote($file1);
     my $file2_q = shell_quote($file2);
 
     my $cmd  = '/usr/bin/diff';
-    if ( $self->option->{'ignore-space-change'} ) {
+    if ( $self->ignore_space_change ) {
         $cmd .= ' --ignore-space-change';
     }
-    if ( $self->option->{'ignore-all-space'} ) {
+    if ( $self->ignore_all_space ) {
         $cmd .= ' --ignore-all-space';
     }
     $cmd  .= " $file1_q $file2_q";
     my $diff
         = -s $file1 != -s $file2 ? abs( (-s $file1) - (-s $file2) )
-        : $self->option->{fast}  ? 0
+        : $self->fast  ? 0
         :                          length ''.`$cmd`;
 
     if ($diff) {
-        warn "$self->option->{cmd} $file1_q $file2_q\n" if $self->option->{verbose};
-        return ( $diff, "$self->option->{cmd} $file1_q $file2_q" );
+        warn "$self->cmd $file1_q $file2_q\n" if $self->verbose;
+        return ( $diff, "$self->cmd $file1_q $file2_q" );
     }
 
     return;
