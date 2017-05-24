@@ -75,7 +75,6 @@ sub diff_tree {
 
     my %found = $dd->differences('t/diff_tree/a', 't/diff_tree/b');
 
-    diag explain \%found;
     is scalar keys %found, 3, 'See 3 file differences';
     ok !!$found{file2}, 'See modified file2';
     ok !!$found{file3}, 'See new file3';
