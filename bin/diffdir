@@ -84,6 +84,9 @@ sub main {
 
     for my $file ( sort keys %files ) {
         print "$file\n";
+        for my $dir ( @ARGV[ 1 .. $#ARGV ] ) {
+            print "\t$files{$file}{$dir}{diff}\n";
+        }
     }
 
     return;
