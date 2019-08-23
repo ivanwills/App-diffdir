@@ -136,7 +136,7 @@ sub dodiff {
     }
     else {
         my $diff = diff($file1, $file2);
-        return (length $diff, "diff $file1 $file2") if $diff;
+        return (length $diff, $self->cmd . " $file1 $file2") if $diff;
     }
 
     return;
