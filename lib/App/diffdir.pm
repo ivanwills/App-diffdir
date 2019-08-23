@@ -24,8 +24,11 @@ has exclude => (
     is      => 'rw',
     default => sub {[]},
 );
+has cmd => (
+    is      => 'rw',
+    default => 'diff',
+);
 has [qw/
-    cmd
     fast
     follow
     ignore_all_space
