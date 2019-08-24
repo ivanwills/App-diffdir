@@ -3,6 +3,8 @@
 <a href="https://travis-ci.org/ivanwills/App-diffdir?branch=master"><img src="https://travis-ci.org/ivanwills/App-diffdir.png?branch=master" alt="App-diffdir"></a>
 <a href="https://coveralls.io/r/ivanwills/App-diffdir?branch=master"><img src="https://coveralls.io/repos/ivanwills/App-diffdir/badge.svg?branch=master" alt="Coverage Status" /></a>
 
+=end html
+
 =head1 App-diffdir
 
 Tool for diffing two or more directories
