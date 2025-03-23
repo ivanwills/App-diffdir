@@ -50,7 +50,7 @@ sub differences {
         if ( ! $found{$file}{$last_dir} ) {
             $found{$file}{$last_dir} = {
                 name => path( $last_dir, $file),
-                diff => 'missing',
+                diff => "missing from $last_dir",
             };
         }
 
@@ -58,12 +58,12 @@ sub differences {
             if ( ! $found{$file}{$dir} ) {
             $found{$file}{$dir} = {
                 name => path( $dir, $file),
-                diff => 'missing',
+                diff => "missing in $dir",
             };
                 $diff_count++;
             }
             elsif ( ! -e $found{$file}{$last_dir}{name} ) {
-                $found{$file}{$dir}{diff} = 'added';
+                $found{$file}{$dir}{diff} = "added to $dir";
                 $diff_count++;
             }
             elsif ( my $diff = eval { $self->dodiff( ''.path($last_dir, $file), ''.path($dir, $file) ) } ) {
@@ -75,6 +75,7 @@ sub differences {
         }
 
         if ( !$diff_count ) {
+            # remote files with no differences
             delete $found{$file};
         }
     }
